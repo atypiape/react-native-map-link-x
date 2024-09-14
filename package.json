@@ -1,6 +1,6 @@
 {
   "name": "react-native-map-link-x",
-  "version": "3.6.1",
+  "version": "3.6.1-zh.0",
   "description": "Open the map app of the user's choice with a specific location (Fork from react-native-map-link). Support chinese map apps (Gaode, Baidu and Tencent).",
   "source": "src/index",
   "main": "lib/index.js",
@@ -10,11 +10,10 @@
   },
   "scripts": {
     "lint": "eslint src --max-warnings=0 && eslint tests --max-warnings=0",
-    "build": "rm -rf lib && npm run copy-images && tsc --project tsconfig.build.json && npm run copy-android",
+    "build": "rm -rf lib && npm run copy-images && tsc --project tsconfig.build.json",
     "test": "jest",
     "release": "semantic-release",
     "copy-images": "mkdir -p ./lib/images && cp -r ./src/images ./lib",
-    "copy-android": "mkdir -p ./lib/android && cp -r ./android/src ./android/build.gradle ./lib/android/",
     "tscheck": "tsc --noEmit"
   },
   "keywords": [
@@ -47,6 +46,8 @@
     "react-native": ">=0.40.0"
   },
   "files": [
+    "android/build.gradle",
+    "android/src",
     "lib",
     "app.plugin.js"
   ],
@@ -98,5 +99,6 @@
       "<rootDir>/node_modules/"
     ],
     "cacheDirectory": ".jest/cache"
-  }
+  },
+  "packageManager": "yarn@4.0.2+sha512.4e502bea682e7d8004561f916f1da2dfbe6f718024f6aa50bf8cd86f38ea3a94a7f1bf854a9ca666dd8eafcfb8d44baaa91bf5c7876e79a7aeac952c332f0e88"
 }

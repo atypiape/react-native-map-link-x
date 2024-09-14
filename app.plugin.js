@@ -2,6 +2,10 @@
 const {withAndroidManifest, withInfoPlist} = require('@expo/config-plugins');
 
 const schemes = [
+  'iosamap',
+  'androidamap',
+  'baidumap',
+  'qqmap',
   'comgooglemaps',
   'citymapper',
   'uber',

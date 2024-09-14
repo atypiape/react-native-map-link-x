@@ -311,10 +311,6 @@ const apps = await getApps({
   longitude: 118.088061,
   title: '世贸海峡大厦',
   address: '厦门市思明区演武西路180-188号',
-  dialogTitle: '在地图中打开',
-  dialogMessage: '请选择您想要打开的地图',
-  cancelText: '取消',
-  appsWhiteList: ['apple-maps', 'amap', 'baidumap', 'qqmap'],
 });
 
 // 通过第三方 ActionSheet 组件显示地图应用列表

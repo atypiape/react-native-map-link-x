@@ -12,4 +12,3 @@ example/yarn.lock
 lib/
 
 .yarn/install-state.gz
-.yarnrc.yml
