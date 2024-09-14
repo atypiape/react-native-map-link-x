@@ -1,13 +1,10 @@
 # react-native-map-link-x
 
-<div style="display: none">
-[![GitHub release](https://img.shields.io/npm/v/react-native-map-link-x.svg)](https://www.npmjs.com/package/react-native-map-link-x)
-[![npm](https://img.shields.io/npm/dm/react-native-map-link-x.svg)](https://www.npmjs.com/package/react-native-map-link-x)
-[![GitHub license](https://img.shields.io/github/license/flexible-agency/react-native-map-link-x.svg)](https://github.com/flexible-agency/react-native-map-link-x/blob/master/LICENSE)
-
+[![GitHub release](https://img.shields.io/npm/v/react-native-map-link.svg)](https://www.npmjs.com/package/react-native-map-link)
+[![npm](https://img.shields.io/npm/dm/react-native-map-link.svg)](https://www.npmjs.com/package/react-native-map-link)
+[![GitHub license](https://img.shields.io/github/license/flexible-agency/react-native-map-link.svg)](https://github.com/flexible-agency/react-native-map-link/blob/master/LICENSE)
 
 ---
-</div>
 
 An easy way to open a location in a map app of the user's choice, based on the apps they have installed
 on their device. The app supports Apple Maps, Google Maps, Citymapper, Uber and a dozen other apps.
