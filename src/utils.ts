@@ -1,17 +1,24 @@
 import {Linking, ActionSheetIOS, Alert} from 'react-native';
 
-import {appKeys, isIOS} from './constants';
+import {appKeys, generateApkPackageNames, isIOS} from './constants';
 import type {MapId} from './type';
+import {isApkInstalled} from './native';
 
 export const getAvailableApps = async (
   prefixes: Record<string, string>,
 ): Promise<MapId[]> => {
   const availableApps: MapId[] = [];
 
+  const apkPackageNames = generateApkPackageNames();
+
   await Promise.all(
     Object.keys(prefixes).map(async (app) => {
       try {
-        const isInstalled = await isAppInstalled(app, prefixes);
+        const isInstalled = await isAppInstalled(
+          app,
+          prefixes,
+          apkPackageNames,
+        );
         if (isInstalled) {
           availableApps.push(app as MapId);
         }
@@ -24,22 +31,27 @@ export const getAvailableApps = async (
   return availableApps;
 };
 
-export const isAppInstalled = (
+export async function isAppInstalled(
   app: string,
   prefixes: Record<string, string>,
-): Promise<boolean> => {
-  return new Promise<boolean>((resolve) => {
-    if (!(app in prefixes)) {
-      return resolve(false);
-    }
+  apkPackageNames: Record<string, string>,
+): Promise<boolean> {
+  if (!(app in prefixes)) {
+    return false;
+  }
+  if (!isIOS) {
+    return await isApkInstalled(apkPackageNames[app]);
+  }
 
-    Linking.canOpenURL(prefixes[app])
-      .then((result) => {
-        resolve(!!result);
-      })
-      .catch(() => resolve(false));
-  });
-};
+  const prefix = prefixes[app];
+
+  try {
+    const result = await Linking.canOpenURL(prefix);
+    return !!result;
+  } catch (error) {
+    return false;
+  }
+}
 
 export const isSupportedApp = (app: string): boolean => {
   return appKeys.includes(app);
@@ -262,6 +274,31 @@ export const generateMapUrl = ({
   let url = '';
 
   switch (app) {
+    case 'amap':
+      // see https://lbs.amap.com/api/amap-mobile/guide/ios/navi
+      // see https://lbs.amap.com/api/amap-mobile/guide/android/navigation
+      url = `${prefixes[app]}navi?dev=1&`;
+      url += 'sourceApplication=appname&';
+      url += `lat=${lat}&lon=${lng}&`;
+      url += title ? `poiname=${title}&` : '&';
+      break;
+
+    case 'baidumap':
+      // see https://lbs.baidu.com/faq/api?title=webapi/uri/ios
+      // see https://lbs.baidu.com/faq/api?title=webapi/uri/andriod
+      url = `${prefixes[app]}map/navi?coord_type=gcj02&`;
+      url += 'src=com.baidu.appname&';
+      url += `location=${lat},${lng}&`;
+      url += title ? `query=${title}&` : '&';
+      break;
+
+    case 'qqmap':
+      // see https://lbs.qq.com/webApi/uriV1/uriGuide/uriMobileRoute
+      url = `${prefixes[app]}map/routeplan?from=我的位置&type=drive&coord_type=1&policy=0&`;
+      url += `tocoord=${lat},${lng}&`;
+      url += title ? `to=${title}&` : '&';
+      break;
+
     case 'apple-maps':
       const appleDirectionMode = getDirectionsModeAppleMaps(directionsMode);
       url = prefixes['apple-maps'];

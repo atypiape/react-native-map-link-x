@@ -1,17 +1,31 @@
-![React Native Map Link](https://lowcdn.com/2x/8f2/3ab63c0fe3f9-00fb302c20/banner.svg)
+# react-native-map-link-x
 
-[![GitHub release](https://img.shields.io/npm/v/react-native-map-link.svg)](https://www.npmjs.com/package/react-native-map-link)
-[![npm](https://img.shields.io/npm/dm/react-native-map-link.svg)](https://www.npmjs.com/package/react-native-map-link)
-[![GitHub license](https://img.shields.io/github/license/flexible-agency/react-native-map-link.svg)](https://github.com/flexible-agency/react-native-map-link/blob/master/LICENSE)
+<div style="display: none">
+[![GitHub release](https://img.shields.io/npm/v/react-native-map-link-x.svg)](https://www.npmjs.com/package/react-native-map-link-x)
+[![npm](https://img.shields.io/npm/dm/react-native-map-link-x.svg)](https://www.npmjs.com/package/react-native-map-link-x)
+[![GitHub license](https://img.shields.io/github/license/flexible-agency/react-native-map-link-x.svg)](https://github.com/flexible-agency/react-native-map-link-x/blob/master/LICENSE)
+
+
+---
+</div>
+
+An easy way to open a location in a map app of the user's choice, based on the apps they have installed
+on their device. The app supports Apple Maps, Google Maps, Citymapper, Uber and a dozen other apps.
+
+This is fork from [react-native-map-link](https://github.com/christopherdro/react-native-map-link). Based on the original library, it adds support for `Gaode Maps`, `Baidu Maps`, and `Tencent Maps`. Additionally, it resolves the issue where some devices, are unable to recognize map apps, such as Huawei.
 
 ---
 
-An easy way to open a location in a map app of the user's choice, based on the apps they have installed
-on their device. The app supports Apple Maps, Google Maps, Citymapper, Uber, and a dozen other apps.
+根据用户设备中已安装的地图应用，提供一种便捷方式，打开用户所选的定位导航。支持苹果地图、谷歌地图、优步，以及其他国外主流地图应用。
+
+本库 Fork 自 [react-native-map-link](https://github.com/christopherdro/react-native-map-link)，在原库的基础上，添加对`高德地图`、`百度地图`、`腾讯地图`的支持。另外，解决部分 Android 设备无法识别地图应用的问题，如华为手机等。
 
 <details>
 <summary><strong>Full list of supported apps</strong></summary>
 
+- Gaode Maps – `amap`
+- Baidu Maps – `baidumap`
+- Tencent Maps – `qqmap`
 - Apple Maps – `apple-maps`
 - Google Maps – `google-maps`
 - Citymapper – `citymapper`
@@ -39,8 +53,10 @@ on their device. The app supports Apple Maps, Google Maps, Citymapper, Uber, and
 </details>
 
 <br /><p align="center">
-<img src="./docs/example.png" alt="Example screenshot" width="320" />
-
+<img src="./docs/example.png" alt="Example screenshot" width="240" />
+<img src="./docs/example-zh0.png" alt="Example screenshot" width="240" />
+<img src="./docs/example-zh1.png" alt="Example screenshot" width="240" />
+<img src="./docs/example-zh2.png" alt="Example screenshot" width="240" />
 </p>
 
 ## Installation
@@ -48,12 +64,19 @@ on their device. The app supports Apple Maps, Google Maps, Citymapper, Uber, and
 ### 1. Install the package
 
 ```shell
-npm i -S react-native-map-link      # or yarn add react-native-map-link
+npm i -S react-native-map-link-x
+# or
+yarn add react-native-map-link-x
 ```
 
 ### 2. Post-install steps
 
 Based on the platforms your app supports, you also need to:
+
+**注意：**
+- 切记更新 iOS 和 Android 配置，否则将无法调起地图应用；
+- 仅在中国使用的话，可以剔除大部分国外地图应用，保留 `iosamap`、`androidmap`、`baidumap`、`qqmap`；
+- 繁体中文地区，支持显示繁体，但未经过实地测试，欢迎参与测试。
 
 <details id="iOSPostInstall">
 <summary><strong>iOS – Update Info.plist</strong></summary>
@@ -65,6 +88,10 @@ Just add this in your `Info.plist` depending on which apps you'd like to support
 ```xml
 <key>LSApplicationQueriesSchemes</key>
 <array>
+    <string>iosamap</string>
+    <string>androidamap</string>
+    <string>baidumap</string>
+    <string>qqmap</string>
     <string>comgooglemaps</string>
     <string>citymapper</string>
     <string>uber</string>
@@ -113,6 +140,19 @@ You can do so by coping the `<queries>` statement below, and pasting it in the t
   <intent>
     <action android:name="android.intent.action.VIEW" />
     <data android:scheme="geo" />
+  </intent>
+  <intent>
+    <action android:name="android.intent.action.VIEW" />
+    <data android:scheme="androidamap"/>
+  </intent>
+  <intent>
+    <action android:name="android.intent.action.VIEW" />
+    <data android:scheme="baidumap"/>
+    <data android:host="map"/>
+  </intent>
+  <intent>
+    <action android:name="android.intent.action.VIEW" />
+    <data android:scheme="qqmap"/>
   </intent>
   <intent>
     <action android:name="android.intent.action.VIEW" />
@@ -229,7 +269,7 @@ More info [here](https://stackoverflow.com/a/67383641/1129689).
 ## Simple example
 
 ```js
-import {showLocation} from 'react-native-map-link';
+import { showLocation } from 'react-native-map-link-x';
 
 showLocation({
   latitude: 38.8976763,
@@ -238,12 +278,66 @@ showLocation({
 });
 ```
 
+## Chinese example
+
+使用默认组件显示地图应用列表：
+
+```js
+import { showLocation } from 'react-native-map-link-x';
+
+// 弹出默认地图应用列表
+showLocation({
+  latitude: 24.436048,
+  longitude: 118.088061,
+  title: '世贸海峡大厦',
+  address: '厦门市思明区演武西路180-188号',
+  dialogTitle: '在地图中打开',
+  dialogMessage: '请选择您想要打开的地图',
+  cancelText: '取消',
+  appsWhiteList: ['apple-maps', 'amap', 'baidumap', 'qqmap'],
+});
+```
+使用第三方 ActionSheet 组件显示地图应用列表：
+
+```js
+import { getApps } from 'react-native-map-link-x';
+// 引入第三方 ActionSheet 组件
+import { useActionSheet } from '@expo/react-native-action-sheet';
+
+...
+
+const { showActionSheetWithOptions } = useActionSheet();
+
+// 获取可用的地图应用列表
+const apps = await getApps({
+  latitude: 24.436048,
+  longitude: 118.088061,
+  title: '世贸海峡大厦',
+  address: '厦门市思明区演武西路180-188号',
+  dialogTitle: '在地图中打开',
+  dialogMessage: '请选择您想要打开的地图',
+  cancelText: '取消',
+  appsWhiteList: ['apple-maps', 'amap', 'baidumap', 'qqmap'],
+});
+
+// 通过第三方 ActionSheet 组件显示地图应用列表
+showActionSheetWithOptions({
+  options: apps.map((app) => app.name).push('取消'),
+}, {
+  onPress: (index) => {
+    const app = apps[index];
+    app?.open();
+  }
+});
+```
+
+
 ## Full usage
 
 Using the `showLocation` function will shown an action sheet on iOS and an alert on Android, without any custom styling:
 
 ```js
-import {showLocation} from 'react-native-map-link';
+import { showLocation } from 'react-native-map-link-x';
 
 showLocation({
   latitude: 38.8976763,
@@ -257,7 +351,7 @@ showLocation({
   dialogTitle: 'This is the dialog Title', // optional (default: 'Open in Maps')
   dialogMessage: 'This is the amazing dialog Message', // optional (default: 'What app would you like to use?')
   cancelText: 'This is the cancel button text', // optional (default: 'Cancel')
-  appsWhiteList: ['google-maps'], // optionally you can set which apps to show (default: will show all supported apps installed on device)
+  appsWhiteList: ['amap', 'baidumap', 'qqmap'], // optionally you can set which apps to show (default: will show all supported apps installed on device)
   naverCallerName: 'com.example.myapp', // to link into Naver Map You should provide your appname which is the bundle ID in iOS and applicationId in android.
   appTitles: {'google-maps': 'My custom Google Maps title'}, // optionally you can override default app titles
   app: 'uber', // optionally specify specific app to use
@@ -268,7 +362,7 @@ showLocation({
 Alternatively you can specify the `address` field and leave the latitude and longitude properties as empty strings 
 
 ```js
-import {showLocation} from 'react-native-map-link';
+import { showLocation } from 'react-native-map-link-x';
 
 showLocation({
   address: '1600 Pennsylvania Avenue NW, Washington, DC 20500', // Required if replacing latitude and longitude
@@ -297,7 +391,7 @@ type GetAppResult = {
 ```
 
 ```tsx
-import {getApps, GetAppResult} from 'react-native-map-link';
+import { getApps, GetAppResult } from 'react-native-map-link-x';
 
 const Demo = () => {
   const [availableApps, setAvailableApps] = useState<GetAppResult[]>([]);

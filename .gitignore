@@ -10,3 +10,6 @@ example/yarn.lock
 
 # ts outDir
 lib/
+
+.yarn/install-state.gz
+.yarnrc.yml

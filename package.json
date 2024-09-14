@@ -1,22 +1,28 @@
 {
-  "name": "react-native-map-link",
+  "name": "react-native-map-link-x",
   "version": "3.1.0",
-  "description": "Open the map app of the user's choice with a specific location.",
+  "description": "Open the map app of the user's choice with a specific location (Fork from react-native-map-link). Support chinese map apps (Gaode, Baidu and Tencent).",
   "source": "src/index",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tschoffelen/react-native-map-link.git"
+    "url": "git+https://github.com/atypiape/react-native-map-link-x.git"
   },
   "scripts": {
     "lint": "eslint src --max-warnings=0 && eslint tests --max-warnings=0",
-    "build": "npm run copy-images && tsc --project tsconfig.build.json",
+    "build": "rm -rf lib && npm run copy-images && tsc --project tsconfig.build.json && npm run copy-android",
     "test": "jest",
     "release": "semantic-release",
     "copy-images": "mkdir -p ./lib/images && cp -r ./src/images ./lib",
+    "copy-android": "mkdir -p ./lib/android && cp -r ./android/src ./android/build.gradle ./lib/android/",
     "tscheck": "tsc --noEmit"
   },
   "keywords": [
+    "高德地图",
+    "百度地图",
+    "腾讯地图",
+    "地图",
+    "导航",
     "react-native",
     "react-component",
     "maps",
@@ -24,14 +30,18 @@
     "linking",
     "react",
     "ios",
-    "android"
+    "android",
+    "navigation",
+    "amap",
+    "qqmap",
+    "baidumap"
   ],
-  "author": "Thomas Schoffelen <thomas@includable.com> (https://includable.com/)",
+  "author": "Atypiape <atypiape@163.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tschoffelen/react-native-map-link/issues"
+    "url": "https://github.com/atypiape/react-native-map-link-x/issues"
   },
-  "homepage": "https://github.com/tschoffelen/react-native-map-link#readme",
+  "homepage": "https://github.com/atypiape/react-native-map-link-x#readme",
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-native": ">=0.40.0"

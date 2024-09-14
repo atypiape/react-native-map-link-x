@@ -6,12 +6,12 @@ import {
   Popup,
   showLocation,
   ShowLocationProps,
-} from 'react-native-map-link';
+} from 'react-native-map-link-x';
 
 const options = {
-  latitude: 38.8976763,
-  longitude: -77.0387185,
-  title: 'The White House',
+  latitude: 24.436048,
+  longitude: 118.088061,
+  title: '世贸海峡大厦',
   dialogTitle: 'This is the dialog Title',
   dialogMessage: 'This is the amazing dialog Message',
   cancelText: 'This is the cancel button text',
@@ -19,8 +19,8 @@ const options = {
 
 const onFootOptions: ShowLocationProps = {
   ...options,
-  sourceLatitude: 38.8991792,
-  sourceLongitude: -77.0452072,
+  sourceLatitude: 24.436048,
+  sourceLongitude: 118.088061,
   directionsMode: 'walk',
 };
 
@@ -32,12 +32,12 @@ export default function App() {
     const fetchAvailableApps = async () => {
       try {
         const apps = await getApps({
-          latitude: 38.8976763,
-          longitude: -77.0387185,
-          title: 'The White House',
+          latitude: 24.436048,
+          longitude: 118.088061,
+          title: '世贸海峡大厦',
           googleForceLatLon: false, // optionally force GoogleMaps to use the latlon for the query instead of the title
           alwaysIncludeGoogle: true, // optional, true will always add Google Maps to iOS and open in Safari, even if app is not installed (default: false)
-          appsWhiteList: ['google-maps'], // optionally you can set which apps to show (default: will show all supported apps installed on device)
+          appsWhiteList: ['amap', 'baidumap', 'qqmap'], // optionally you can set which apps to show (default: will show all supported apps installed on device)
         });
         setAvailableApps(apps);
       } catch (error) {

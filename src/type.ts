@@ -2,6 +2,9 @@ import type {ImageSourcePropType} from 'react-native';
 
 /** id for map application. this is the id that is passed to the `app` option */
 export type MapId =
+  | 'amap'
+  | 'baidumap'
+  | 'qqmap'
   | 'apple-maps'
   | 'google-maps'
   | 'citymapper'

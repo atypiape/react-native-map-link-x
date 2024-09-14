@@ -1,7 +1,20 @@
 import {Platform} from 'react-native';
 import type {MapId} from './type';
+import {selectLanguage} from './native';
 
 export const isIOS: boolean = Platform.OS === 'ios';
+
+export const generateApkPackageNames = (): Pick<
+  Record<MapId, string>,
+  'amap' | 'baidumap' | 'qqmap' | 'google-maps'
+> => {
+  return {
+    amap: 'com.autonavi.minimap',
+    baidumap: 'com.baidu.BaiduMap',
+    qqmap: 'com.tencent.map',
+    'google-maps': 'com.google.android.apps.maps',
+  };
+};
 
 export const generatePrefixes = ({
   alwaysIncludeGoogle,
@@ -11,6 +24,9 @@ export const generatePrefixes = ({
   naverCallerName?: string;
 }): Record<MapId, string> => {
   return {
+    amap: isIOS ? 'iosamap://' : 'androidamap://',
+    baidumap: 'baidumap://',
+    qqmap: 'qqmap://',
     'apple-maps': isIOS ? 'maps://' : 'applemaps://',
     'google-maps': prefixForGoogleMaps(alwaysIncludeGoogle),
     citymapper: 'citymapper://',
@@ -45,10 +61,33 @@ export const prefixForGoogleMaps = (alwaysIncludeGoogle?: boolean): string => {
 
 export const generateTitles = (
   titles?: Record<string, string>,
-): Record<string, string> => {
+): Record<MapId, string> => {
   return {
-    'apple-maps': 'Apple Maps',
-    'google-maps': 'Google Maps',
+    amap: selectLanguage({
+      chineseSimplified: '高德地图',
+      chineseTraditional: '高德地圖',
+      default: 'Gaode Maps',
+    }),
+    baidumap: selectLanguage({
+      chineseSimplified: '百度地图',
+      chineseTraditional: '百度地圖',
+      default: 'Baidu Maps',
+    }),
+    qqmap: selectLanguage({
+      chineseSimplified: '腾讯地图',
+      chineseTraditional: '腾讯地圖',
+      default: 'Tencent Maps',
+    }),
+    'apple-maps': selectLanguage({
+      chineseSimplified: '苹果地图',
+      chineseTraditional: '蘋果地圖',
+      default: 'Apple Maps',
+    }),
+    'google-maps': selectLanguage({
+      chineseSimplified: '谷歌地图',
+      chineseTraditional: '谷歌地圖',
+      default: 'Google Maps',
+    }),
     citymapper: 'Citymapper',
     uber: 'Uber',
     lyft: 'Lyft',
@@ -75,6 +114,9 @@ export const generateTitles = (
 };
 
 export const icons: Record<string, number> = {
+  amap: require('./images/amap.png'),
+  baidumap: require('./images/baidu.png'),
+  qqmap: require('./images/qqmap.png'),
   'apple-maps': require('./images/apple-maps.png'),
   'google-maps': require('./images/google-maps.png'),
   citymapper: require('./images/citymapper.png'),
@@ -100,7 +142,36 @@ export const icons: Record<string, number> = {
   sygic: require('./images/sygic.png'),
 };
 
-export const appKeys: string[] = Object.keys(icons);
+const _appKeys: MapId[] = [
+  'amap',
+  'baidumap',
+  'qqmap',
+  'apple-maps',
+  'google-maps',
+  'citymapper',
+  'uber',
+  'lyft',
+  'transit',
+  'truckmap',
+  'waze',
+  'yandex',
+  'moovit',
+  'yandex-maps',
+  'yandex-taxi',
+  'kakaomap',
+  'tmap',
+  'mapycz',
+  'maps-me',
+  'osmand',
+  'gett',
+  'navermap',
+  'dgis',
+  'liftago',
+  'petalmaps',
+  'sygic',
+];
+
+export const appKeys: string[] = _appKeys;
 
 export const colorsPopup = {
   black: '#464646',
